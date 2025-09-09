@@ -1,25 +1,34 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from data import events, add_event
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["http://localhost:8000"])
 
-# Create a list called 'events' with a couple of sample event dictionaries
-# Each dictionary should have an 'id' and a 'title'
+@app.route('/')
+def home():
+    # Return JSON welcome message
+    return jsonify({"message": "Welcome to the Events Catalog API"})
 
-# TASK: Create a route for "/"
-# This route should return a JSON welcome message
+@app.route('/events', methods=['GET'])
+def get_events():
+    # Return list of events as JSON
+    return jsonify(events)
 
-# TASK: Create a GET route for "/events"
-# This route should return the full list of events as JSON
+@app.route('/events', methods=['POST'])
+def create_event():
+    data = request.get_json()
 
-# TASK: Create a POST route for "/events"
-# This route should:
-# 1. Get the JSON data from the request
-# 2. Validate that "title" is provided
-# 3. Create a new event with a unique ID and the provided title
-# 4. Add the new event to the events list
-# 5. Return the new event with status code 201
+    # Validate incoming JSON has 'title'
+    if not data or 'title' not in data:
+        return jsonify({"error": "Missing 'title' in request data"}), 400
+
+    # Use add_event helper function from data.py
+    new_event = add_event({
+        "title": data['title']
+    })
+
+    return jsonify(new_event), 201
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)

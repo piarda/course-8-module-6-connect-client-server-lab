@@ -1,5 +1,41 @@
 # Lab: Building a Front-to-Back Event Catalog
 
+This is a lightweight full-stack web application that allows users to view and submit events. It demonstrates interaction between a JavaScript front end and a Flask back end using HTTP requests and JSON.
+
+## Features:
+- View a list of events served from the back end
+- Submit a new event using a form
+- New events appear instantly on the page without reloading
+- Data is exchanged via JSON using the Fetch API
+- CORS is enabled to support cross-origin requests
+
+## Project Structure:
+main/
+├── server.py          # Flask server
+├── data.py            # Event storage logic
+tests/
+├── test_app.py        # Pytest test suite
+client/
+├── index.html         # Front-end HTML
+├── script.js          # JavaScript logic
+├── styles.css         # CSS styles
+
+## Running the Application:
+Start the Flask Server from the main folder directory:
+    python3 server.py
+This runs the server on http://localhost:5001.
+
+Start the Frontend Server from the client folder directory:
+    python3 -m http.server 8000
+Visit the app in your browser at http://localhost:8000.
+
+## Running Tests:
+From the project root:
+    pytest tests/test_app.py
+
+
+-----------------------------------
+
 ## Learning Goals
 
 - Serve a homepage using Flask
